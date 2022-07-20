@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+}
+
+.container {
+    width: 500px;
+}
+
+.display {
+    border: 1px black solid;
+    height: 50px;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px;
+    padding: 10px;
+    gap: 10px;
+
+}
+
+.buttons div {
+    border: 1px black solid;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
