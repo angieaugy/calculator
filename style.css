@@ -29,7 +29,7 @@
 
 }
 
-.buttons div {
+.buttons button {
     border: 1px black solid;
     width: 70px;
     height: 70px;
