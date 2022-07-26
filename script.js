@@ -38,42 +38,49 @@ equalButton.addEventListener('click', solve)
 
 function updateValue() {
 
+    if(num1 === '' && this.textContent === '0') return
+
     num1 += this.textContent
 
     updateDisplay(num1)
 
-    console.log(num1)
+    console.log(`Op >> ${storedOperator} // Num1 = ${num1} // Num2 = ${num2}`)
 
 }
 
 function updateOperator() {
 
+    if (storedOperator && (num1 && num2)) solve();
+
     storedOperator = this.value
 
-    num2 = num1
+    if(num1 != '') {
 
-    num1 = ''
+        num2 = num1
 
-    console.log(storedOperator)
+        num1 = ''
+
+    }
+
+    console.log(`Op >> ${storedOperator} // Num1 = ${num1} // Num2 = ${num2}`)
 
 }
 
 function solve() {
 
-    num1 = operate(storedOperator, +num1, +num2)
-
-    num2 = ''
-
+    num2 = operate(storedOperator, +num2, +num1)
+    
+    num1 = ''
+     
     updateDisplay(num2)
 
-    console.log(`Num1 = ${num1}`)
-    console.log(`Num2 = ${num2}`)
+    console.log(`Op >> ${storedOperator} // Num1 = ${num1} // Num2 = ${num2}`)
 
 }
 
-function operate(operator, num1, num2) {
+function operate(operator, num2, num1) {
 
-    return operators[operator](num1,num2)
+    return operators[operator](num2,num1)
 
 }
 
@@ -92,17 +99,15 @@ function clearDisplay() {
     if (display.textContent === '') {
 
         num1 = ''
+        num2 = ''
+        storedOperator = ''
 
     } else {
 
+        num1 = ''
         display.textContent = ''
 
     }
 
 }
-
-
-
-
-console.log(operate('/',10,2))
 
