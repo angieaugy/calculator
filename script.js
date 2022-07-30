@@ -1,8 +1,11 @@
 // ---------- CONSTANTS & VARIABLES ---------- //
 
-let num1 = ''
-let num2 = ''
+let num1 = 0
+let num2 = 0
+let total = 0
+let inputString = '0'
 let storedOperator = ''
+let opToggle = false
 
 const display = document.querySelector('.display')
 
@@ -27,8 +30,8 @@ const operators = {
 
 // ----------------- EVENT LISTENERS ----------------- //
 
-clearButton.addEventListener('click', clearDisplay)
-numberButton.forEach(button => button.addEventListener('click', updateValue))
+clearButton.addEventListener('click', clear)
+numberButton.forEach(button => button.addEventListener('click', updateInputString))
 operatorButton.forEach(button => button.addEventListener('click', updateOperator))
 equalButton.addEventListener('click', solve)
 
@@ -36,51 +39,68 @@ equalButton.addEventListener('click', solve)
 
 // ------------------ LOGIC ----------------- //
 
+function updateInputString() {
+
+    opToggle = false
+
+    // do not repeat zeroes
+    if(inputString === '0' && this.textContent === '0') return
+
+    // remove 0 prefix before appending digits
+    if(inputString === '0' && this.textContent !== '0') {
+
+        inputString = ''
+
+    }
+
+    inputString += this.textContent
+
+    updateDisplay(inputString)
+
+}
+
 function updateValue() {
 
-    if(num1 === '' && this.textContent === '0') return
+    !storedOperator ? num1 = inputString : num2 = inputString
 
-    num1 += this.textContent
+    inputString = '0'
 
-    updateDisplay(num1)
-
-    console.log(`Op >> ${storedOperator} // Num1 = ${num1} // Num2 = ${num2}`)
+    console.log(`Op >> ${storedOperator} // ${num1}, ${num2}, ${total}`)
 
 }
 
 function updateOperator() {
 
-    if (storedOperator && (num1 && num2)) solve();
+    updateValue()
+
+    if(storedOperator) solve()
 
     storedOperator = this.value
 
-    if(num1 != '') {
+    opToggle = true
 
-        num2 = num1
-
-        num1 = ''
-
-    }
-
-    console.log(`Op >> ${storedOperator} // Num1 = ${num1} // Num2 = ${num2}`)
+    console.log(`Op >> ${storedOperator} // ${num1}, ${num2}, ${total}`)
 
 }
 
 function solve() {
 
-    num2 = operate(storedOperator, +num2, +num1)
-    
-    num1 = ''
-     
-    updateDisplay(num2)
+    // update value only when there is user input
+    if(inputString !== '0') updateValue()
 
-    console.log(`Op >> ${storedOperator} // Num1 = ${num1} // Num2 = ${num2}`)
+    total = operate(storedOperator, +num1, +num2)
+    
+    num1 = total
+     
+    updateDisplay(total)
+
+    console.log(`Op >> ${storedOperator} // ${num1}, ${num2}, ${total}`)
 
 }
 
-function operate(operator, num2, num1) {
+function operate(operator, num1, num2) {
 
-    return operators[operator](num2,num1)
+    return operators[operator](num1,num2)
 
 }
 
@@ -94,20 +114,23 @@ function updateDisplay(str) {
 
 }
 
-function clearDisplay() {
+function clear() {
 
-    if (display.textContent === '') {
+    if (display.textContent === '0') {
 
-        num1 = ''
-        num2 = ''
+        num1 = 0
+        num2 = 0
+        total = 0
         storedOperator = ''
 
     } else {
 
-        num1 = ''
-        display.textContent = ''
+        inputString = '0'
+        updateDisplay(inputString)
 
     }
 
 }
+
+updateDisplay(inputString)
 
