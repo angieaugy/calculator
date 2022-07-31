@@ -2,10 +2,9 @@
 
 let num1 = 0
 let num2 = 0
-let total = 0
 let inputString = '0'
 let storedOperator = ''
-let opToggle = false
+let resetToggle = false
 
 const display = document.querySelector('.display')
 
@@ -39,9 +38,101 @@ equalButton.addEventListener('click', solve)
 
 // ------------------ LOGIC ----------------- //
 
-function updateInputString() {
+function updateValue() {
 
-    opToggle = false
+    if(resetToggle == true) {
+
+        storedOperator = ''
+        num2 = 0
+        resetToggle = false
+
+    }
+
+    !storedOperator ? num1 = +inputString : num2 = +inputString
+
+    inputString = '0'
+
+    console.log(`Op >> ${storedOperator} // ${num1}, ${num2}`)
+
+}
+
+function updateOperator() {
+
+    // in the event of = then operand
+    if(resetToggle == true) {
+
+        num2 = 0
+        resetToggle = false
+
+    }
+
+
+    if(storedOperator === this.value && (num1 === 0 && num2 === 0)) {
+
+        resetToggle = true
+
+        clear()
+
+        return
+        
+    }
+
+    updateValue()
+
+
+    if(storedOperator) solve()
+
+    storedOperator = this.value
+
+    console.log(`Op >> ${storedOperator} // ${num1}, ${num2}`)
+
+}
+
+function solve() {
+
+    // no dividing by zero!
+    if(storedOperator === '/' && num2 === 0) {
+
+        resetToggle = true
+        num1 = 'NaN'
+
+        updateDisplay('NaN')
+
+        return
+
+    }
+    
+
+    // update value only when there is user input
+    if(inputString !== '0') updateValue()
+
+    if(storedOperator) {
+
+        num1 = operate(storedOperator, num1, num2)
+    
+        updateDisplay(num1)
+
+    }
+
+    // clear operands if entering numbers after =
+    if(this.value == '=') resetToggle = true
+
+    console.log(`Op >> ${storedOperator} // ${num1}, ${num2}`)
+
+}
+
+function operate(operator, num1, num2) {
+
+    return operators[operator](num1,num2)
+
+}
+
+
+
+// ------------------- UI ------------------- //
+
+
+function updateInputString() {
 
     // do not repeat zeroes
     if(inputString === '0' && this.textContent === '0') return
@@ -59,54 +150,6 @@ function updateInputString() {
 
 }
 
-function updateValue() {
-
-    !storedOperator ? num1 = inputString : num2 = inputString
-
-    inputString = '0'
-
-    console.log(`Op >> ${storedOperator} // ${num1}, ${num2}, ${total}`)
-
-}
-
-function updateOperator() {
-
-    updateValue()
-
-    if(storedOperator) solve()
-
-    storedOperator = this.value
-
-    opToggle = true
-
-    console.log(`Op >> ${storedOperator} // ${num1}, ${num2}, ${total}`)
-
-}
-
-function solve() {
-
-    // update value only when there is user input
-    if(inputString !== '0') updateValue()
-
-    total = operate(storedOperator, +num1, +num2)
-    
-    num1 = total
-     
-    updateDisplay(total)
-
-    console.log(`Op >> ${storedOperator} // ${num1}, ${num2}, ${total}`)
-
-}
-
-function operate(operator, num1, num2) {
-
-    return operators[operator](num1,num2)
-
-}
-
-
-
-// ------------------- UI ------------------- //
 
 function updateDisplay(str) {
 
@@ -116,19 +159,21 @@ function updateDisplay(str) {
 
 function clear() {
 
-    if (display.textContent === '0') {
+    if (display.textContent === '0' || resetToggle) {
 
         num1 = 0
         num2 = 0
-        total = 0
         storedOperator = ''
+        inputString = '0'
+        resetToggle = false
 
     } else {
 
         inputString = '0'
-        updateDisplay(inputString)
 
     }
+
+    updateDisplay(inputString)
 
 }
 
