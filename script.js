@@ -10,6 +10,7 @@ const display = document.querySelector('.display')
 
 const clearButton = document.querySelector('.clear')
 const numberButtons = document.getElementsByClassName('number')
+const decimalButton = document.querySelector('.decimal')
 const operatorButtons = document.getElementsByClassName('operator')
 const equalButton = document.querySelector('.equal')
 const numberButton = Array.from(numberButtons)
@@ -30,6 +31,7 @@ const operators = {
 // ----------------- EVENT LISTENERS ----------------- //
 
 clearButton.addEventListener('click', clear)
+decimalButton.addEventListener('click', updateInputString)
 numberButton.forEach(button => button.addEventListener('click', updateInputString))
 operatorButton.forEach(button => button.addEventListener('click', updateOperator))
 equalButton.addEventListener('click', solve)
@@ -131,13 +133,41 @@ function operate(operator, num1, num2) {
 
 function updateInputString() {
 
-    // do not repeat zeroes
-    if(inputString === '0' && this.textContent === '0') return updateDisplay(inputString)
+    // 0 display
+    if(inputString == '0') {
 
-    // remove 0 prefix before appending digits
-    if(inputString === '0' && this.textContent !== '0') {
+        // prevent repeated 0s
+        if(this.textContent == '0') {
 
-        inputString = ''
+            return 
+
+        // remove 0 before appending numbers
+        } else {
+
+            inputString = ''
+
+        }
+
+        updateDisplay(inputString)
+
+    }
+
+    // decimal display
+    if(this.textContent == '.') {
+
+        // add 0 before appending decimal point
+        if(inputString == '') {
+
+            inputString = '0'
+
+        // prevent repeated decimal points
+        } else {
+
+            const array1 = inputString.split('')
+            const found = array1.some(element => element == '.')
+            
+            if(found) return
+        }
 
     }
 
@@ -156,7 +186,7 @@ function updateDisplay(str) {
 
 function clear() {
 
-    if (display.textContent === '' || resetToggle) {
+    if (display.textContent === '') {
 
         num1 = ''
         num2 = ''
@@ -173,6 +203,4 @@ function clear() {
     updateDisplay(inputString)
 
 }
-
-updateDisplay(inputString)
 
