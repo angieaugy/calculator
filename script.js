@@ -1,8 +1,8 @@
 // ---------- CONSTANTS & VARIABLES ---------- //
 
-let num1 = 0
-let num2 = 0
-let inputString = '0'
+let num1 = ''
+let num2 = ''
+let inputString = ''
 let storedOperator = ''
 let resetToggle = false
 
@@ -40,47 +40,37 @@ equalButton.addEventListener('click', solve)
 
 function updateValue() {
 
-    if(resetToggle == true) {
+    // in the event of = then operator
+    if(resetToggle == true && inputString == '') {
 
+        num2 = ''
+
+    // in the event of = then operand
+    } else if(resetToggle == true && inputString !=='') {
+
+        num1 = ''
+        num2 = ''
         storedOperator = ''
-        num2 = 0
-        resetToggle = false
-
-    }
+        
+    } else if(inputString == '') return
 
     !storedOperator ? num1 = +inputString : num2 = +inputString
 
-    inputString = '0'
-
-    console.log(`Op >> ${storedOperator} // ${num1}, ${num2}`)
+    inputString = ''
 
 }
 
 function updateOperator() {
 
-    // in the event of = then operand
-    if(resetToggle == true) {
+    if(inputString !== '') {
 
-        num2 = 0
-        resetToggle = false
+        updateValue()
+
+        if(storedOperator && (num1 !== '' && num2 !== '')) solve()
 
     }
 
-
-    if(storedOperator === this.value && (num1 === 0 && num2 === 0)) {
-
-        resetToggle = true
-
-        clear()
-
-        return
-        
-    }
-
-    updateValue()
-
-
-    if(storedOperator) solve()
+    resetToggle = false
 
     storedOperator = this.value
 
@@ -90,31 +80,38 @@ function updateOperator() {
 
 function solve() {
 
+    // update value only when there is user input
+    if(inputString !== '') updateValue()
+
     // no dividing by zero!
-    if(storedOperator === '/' && num2 === 0) {
+    if(storedOperator === '/' && num2 == 0) {
 
-        resetToggle = true
-        num1 = 'NaN'
+        num1 = NaN
+        num2 = ''
 
-        updateDisplay('NaN')
+        updateDisplay('Error')
 
         return
 
     }
-    
 
-    // update value only when there is user input
-    if(inputString !== '0') updateValue()
-
-    if(storedOperator) {
+    if(storedOperator && (num1 !== '' && num2 !== '')) {
 
         num1 = operate(storedOperator, num1, num2)
-    
-        updateDisplay(num1)
 
+        if(isNaN(num1)) {
+
+            updateDisplay('Error')
+
+        } else {
+
+            updateDisplay(num1)
+
+        }
+    
     }
 
-    // clear operands if entering numbers after =
+    // toggle reset if entering numbers after =
     if(this.value == '=') resetToggle = true
 
     console.log(`Op >> ${storedOperator} // ${num1}, ${num2}`)
@@ -135,7 +132,7 @@ function operate(operator, num1, num2) {
 function updateInputString() {
 
     // do not repeat zeroes
-    if(inputString === '0' && this.textContent === '0') return
+    if(inputString === '0' && this.textContent === '0') return updateDisplay(inputString)
 
     // remove 0 prefix before appending digits
     if(inputString === '0' && this.textContent !== '0') {
@@ -159,17 +156,17 @@ function updateDisplay(str) {
 
 function clear() {
 
-    if (display.textContent === '0' || resetToggle) {
+    if (display.textContent === '' || resetToggle) {
 
-        num1 = 0
-        num2 = 0
+        num1 = ''
+        num2 = ''
         storedOperator = ''
-        inputString = '0'
+        inputString = ''
         resetToggle = false
 
     } else {
 
-        inputString = '0'
+        inputString = ''
 
     }
 
