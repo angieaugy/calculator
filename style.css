@@ -45,3 +45,15 @@
 
 }
 
+.operator:active {
+
+    color:red;
+
+}
+
+
+.buttons .active {
+
+    color: fuchsia;
+}
+

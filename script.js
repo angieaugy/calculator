@@ -42,30 +42,38 @@ equalButton.addEventListener('click', solve)
 
 function updateValue() {
 
-    // in the event of = then operator
-    if(resetToggle == true && inputString == '') {
+    if(inputString !== '') {
 
-        num2 = ''
+        // in the event of = then operator
+        if(resetToggle == true && inputString == '') {
 
-    // in the event of = then operand
-    } else if(resetToggle == true && inputString !=='') {
+            num2 = ''
 
-        num1 = ''
-        num2 = ''
-        storedOperator = ''
-        
-    } else if(inputString == '') return
+        // in the event of = then operand
+        } else if(resetToggle == true && inputString !=='') {
 
-    !storedOperator ? num1 = +inputString : num2 = +inputString
+            num1 = ''
+            num2 = ''
+            storedOperator = ''
+            
+        } else if(inputString == '') return
 
-    inputString = ''
+        !storedOperator ? num1 = +inputString : num2 = +inputString
+
+        inputString = ''
+
+    }
 
 }
 
 function updateOperator() {
 
+    toggleOperatorButtonState(this)
+
+    // prevent calculations when pressing operator repeatedly
     if(inputString !== '') {
 
+        // updating values always resets inputString to '' so we need to put it in here for solve() to initiate
         updateValue()
 
         if(storedOperator && (num1 !== '' && num2 !== '')) solve()
@@ -82,8 +90,9 @@ function updateOperator() {
 
 function solve() {
 
-    // update value only when there is user input
-    if(inputString !== '') updateValue()
+    toggleOperatorButtonState(this)
+    
+    updateValue()
 
     // no dividing by zero!
     if(storedOperator === '/' && num2 == 0) {
@@ -148,8 +157,6 @@ function updateInputString() {
 
         }
 
-        updateDisplay(inputString)
-
     }
 
     // decimal display
@@ -163,8 +170,8 @@ function updateInputString() {
         // prevent repeated decimal points
         } else {
 
-            const array1 = inputString.split('')
-            const found = array1.some(element => element == '.')
+            const array = inputString.split('')
+            const found = array.some(element => element == '.')
             
             if(found) return
         }
@@ -184,10 +191,22 @@ function updateDisplay(str) {
 
 }
 
+function toggleOperatorButtonState(val) {
+
+    operatorButton.forEach(button => button.classList.remove('active'))
+
+    if(val.classList.contains('operator')) {
+
+        val.classList.add('active')
+
+    } 
+}
+
 function clear() {
 
     if (display.textContent === '') {
 
+        toggleOperatorButtonState(this)
         num1 = ''
         num2 = ''
         storedOperator = ''
