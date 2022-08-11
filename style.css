@@ -4,18 +4,31 @@
     font-size: 20px;
 }
 
+body {
+    background-color: #484D6D;
+}
+
 .container {
-    width: 450px;
+    margin: auto;
+    margin-top: 100px;
+    padding: 20px;
+    width: 400px;
+    border: 0;
+    border-radius: 25px;
+    background-color: #303347;
 }
 
 .display {
-    border: 1px black solid;
+    border: 0;
+    border-radius: 5px;
+    background-color: rgb(224, 224, 224);
     height: 50px;
     margin: 10px;
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: right;
+    font-size: 27px;
 
 }
 
@@ -24,13 +37,15 @@
     flex-wrap: wrap;
     justify-content: center;
     margin: 10px;
+    margin-top: 20px;
     padding: 10px;
-    gap: 10px;
+    gap: 15px;
 
 }
 
 .buttons button {
-    border: 1px black solid;
+    border: 0;
+    border-radius: 35px;
     width: 70px;
     height: 70px;
     display: flex;

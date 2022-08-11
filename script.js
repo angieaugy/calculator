@@ -90,7 +90,7 @@ function updateOperator() {
 
 function solve() {
 
-    toggleOperatorButtonState(this)
+    if(this.value == '=') toggleOperatorButtonState(this) ;
     
     updateValue()
 
@@ -192,6 +192,8 @@ function updateDisplay(str) {
 }
 
 function toggleOperatorButtonState(val) {
+
+    console.log(val)
 
     operatorButton.forEach(button => button.classList.remove('active'))
 
