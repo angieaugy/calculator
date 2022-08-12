@@ -193,8 +193,6 @@ function updateDisplay(str) {
 
 function toggleOperatorButtonState(val) {
 
-    console.log(val)
-
     operatorButton.forEach(button => button.classList.remove('active'))
 
     if(val.classList.contains('operator')) {

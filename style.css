@@ -5,7 +5,8 @@
 }
 
 body {
-    background-color: #484D6D;
+    height: 100vh;
+    background: linear-gradient(296.91deg, #3f3547 3.73%, #7D81A4 97.68%); 
 }
 
 .container {
@@ -13,17 +14,30 @@ body {
     margin-top: 100px;
     padding: 20px;
     width: 400px;
-    border: 0;
+    border: 1px solid #272a3b;
     border-radius: 25px;
     background-color: #303347;
+    box-shadow: 
+    1px 1px 1px hsla(286, 24%, 14%,.12),
+    3px 3px 3px hsla(286, 24%, 14%,.11), 
+    5px 5px 5px hsla(286, 24%, 14%,.1),
+    7px 7px 7px hsla(286, 24%, 14%,.09),
+    11px 11px 11px hsla(286, 24%, 14%,.08),
+    13px 13px 13px hsla(286, 24%, 14%,.07),
+    17px 17px 17px hsla(286, 24%, 14%,.06),
+    19px 19px 19px hsla(286, 24%, 14%,.05),
+    23px 23px 23px hsla(286, 24%, 14%,.04),
+    29px 29px 29px hsla(286, 24%, 14%,.03);
 }
 
 .display {
-    border: 0;
-    border-radius: 5px;
-    background-color: rgb(224, 224, 224);
+    border: 1px solid rgb(116, 116, 116);
+    border-radius: 10px;
+    background-color: rgb(197, 197, 197);
     height: 50px;
-    margin: 10px;
+    width: 85%;
+    margin: auto;
+    margin-top: 10px;
     padding: 10px;
     display: flex;
     align-items: center;
