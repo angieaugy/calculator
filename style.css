@@ -15,7 +15,7 @@ body {
     padding: 20px;
     width: 400px;
     border: 1px solid #272a3b;
-    border-radius: 25px;
+    border-radius: 10px;
     background-color: #303347;
     box-shadow: 
     1px 1px 1px hsla(286, 24%, 14%,.12),
@@ -31,10 +31,7 @@ body {
 }
 
 .display {
-    border: 1px solid rgb(116, 116, 116);
-    border-radius: 10px;
-    background-color: rgb(197, 197, 197);
-    height: 50px;
+    height: 60px;
     width: 85%;
     margin: auto;
     margin-top: 10px;
@@ -42,7 +39,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: right;
-    font-size: 27px;
+    font-size: 2.7em;
+    color: white;
 
 }
 
@@ -58,7 +56,15 @@ body {
 }
 
 .buttons button {
-    border: 0;
+    border: 1px solid #3d415b;
+    color: white;
+    background-color: #272a3b;
+    box-shadow: 
+    1px 1px 1px hsla(286, 24%, 14%,.12),
+    3px 3px 3px hsla(286, 24%, 14%,.11), 
+    5px 5px 5px hsla(286, 24%, 14%,.1),
+    7px 7px 7px hsla(286, 24%, 14%,.09),
+    11px 11px 11px hsla(286, 24%, 14%,.08);
     border-radius: 35px;
     width: 70px;
     height: 70px;
@@ -68,6 +74,14 @@ body {
 
 }
 
+.buttons button.equal{
+
+    height: 70px;
+    width: 155px;
+
+}
+
+
 .buttons button:active {
 
     background-color: rgb(255, 255, 255);
@@ -76,13 +90,15 @@ body {
 
 .operator:active {
 
-    color:red;
+    background-color: rgb(255, 255, 255);
+    color: #272a3b;
 
 }
 
 
 .buttons .active {
 
-    color: fuchsia;
+    background-color: rgb(255, 255, 255);
+    color: #272a3b;
 }
 
