@@ -186,7 +186,7 @@ function updateInputString() {
 
 
 function updateDisplay(str) {
-
+    
     display.textContent = str
 
 }
