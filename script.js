@@ -8,11 +8,13 @@ let resetToggle = false
 
 const display = document.querySelector('.display')
 
-const clearButton = document.querySelector('.clear')
+const clearButtons = document.getElementsByClassName('clear')
 const numberButtons = document.getElementsByClassName('number')
 const decimalButton = document.querySelector('.decimal')
+const plusminusButton = document.querySelector('.plusminus')
 const operatorButtons = document.getElementsByClassName('operator')
 const equalButton = document.querySelector('.equal')
+const clearButton = Array.from(clearButtons)
 const numberButton = Array.from(numberButtons)
 const operatorButton = Array.from(operatorButtons)
 
@@ -30,11 +32,13 @@ const operators = {
 
 // ----------------- EVENT LISTENERS ----------------- //
 
-clearButton.addEventListener('click', clear)
+equalButton.addEventListener('click', solve)
 decimalButton.addEventListener('click', updateInputString)
+plusminusButton.addEventListener('click',togglePlusMinus)
+clearButton.forEach(button => button.addEventListener('click', clear))
 numberButton.forEach(button => button.addEventListener('click', updateInputString))
 operatorButton.forEach(button => button.addEventListener('click', updateOperator))
-equalButton.addEventListener('click', solve)
+
 
 
 
@@ -135,6 +139,60 @@ function operate(operator, num1, num2) {
 
 }
 
+function togglePlusMinus() {
+
+    if(num1 != '' && num2 != '') {
+
+        if(inputString == '') {
+
+            if(num1 < 0) {
+
+                num1 = num1.toString()
+
+                num1 = +(num1.slice(1))
+
+                return updateDisplay(num1)
+
+            }
+
+            num1 = +('-' + num1)
+    
+            updateDisplay(num1)
+
+        }
+
+    } else {
+
+        if(inputString != '') {
+
+            const array = inputString.split('')
+            const found = array.some(element => element == '-')
+            
+            if(found) {
+
+                if(inputString == '-') {
+
+                    inputString = ''
+        
+                } else {
+
+                    inputString = inputString.slice(1)
+
+                }
+
+                return updateDisplay(inputString)
+
+            }
+
+        }
+
+        inputString = '-' + inputString
+
+        updateDisplay(inputString)
+
+    }
+}
+
 
 
 // ------------------- UI ------------------- //
@@ -160,7 +218,7 @@ function updateInputString() {
     }
 
     // decimal display
-    if(this.textContent == '.') {
+    if(this.value == 'decimal') {
 
         // add 0 before appending decimal point
         if(inputString == '') {
@@ -186,8 +244,18 @@ function updateInputString() {
 
 
 function updateDisplay(str) {
+
+    if(typeof str == 'number' && str > 99999999999999) {
+
+        display.textContent = 'Error'
+
+    } else {
+
+        let string = str.toString();
     
-    display.textContent = str
+        display.textContent = string.substring(0,11)
+    
+    }
 
 }
 
@@ -202,9 +270,11 @@ function toggleOperatorButtonState(val) {
     } 
 }
 
+
+
 function clear() {
 
-    if (display.textContent === '') {
+    if(this.value == 'all-clear') {
 
         toggleOperatorButtonState(this)
         num1 = ''
@@ -213,7 +283,7 @@ function clear() {
         inputString = ''
         resetToggle = false
 
-    } else {
+    } else if (this.value == 'clear') {
 
         inputString = ''
 
@@ -222,4 +292,3 @@ function clear() {
     updateDisplay(inputString)
 
 }
-
