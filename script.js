@@ -39,6 +39,37 @@ clearButton.forEach(button => button.addEventListener('click', clear))
 numberButton.forEach(button => button.addEventListener('click', updateInputString))
 operatorButton.forEach(button => button.addEventListener('click', updateOperator))
 
+document.addEventListener('keydown', (event) => {
+
+    let name = event.key;
+    let code = event.code;
+
+    // if(name >= 0 && name <= 9) {
+
+    //     updateInputString(+name)
+
+    // }
+
+    switch(true) {
+
+        case(name >= 0 && name <= 9):
+
+            updateInputString(+name);
+            break;
+
+        case(name =='+'):
+        case(name =='-'):
+        case(name =='/'):
+        case(name =='*'):
+
+            console.log('test')
+            break;
+    }
+
+    
+
+})
+
 
 
 
@@ -198,13 +229,25 @@ function togglePlusMinus() {
 // ------------------- UI ------------------- //
 
 
-function updateInputString() {
+function updateInputString(val) {
+
+    let num 
+
+    if(typeof val == 'number') {
+
+        num = val;
+
+    } else {
+
+        num = this.textContent
+
+    }
 
     // 0 display
     if(inputString == '0') {
 
         // prevent repeated 0s
-        if(this.textContent == '0') {
+        if(num == '0') {
 
             return 
 
@@ -236,7 +279,7 @@ function updateInputString() {
 
     }
 
-    inputString += this.textContent
+    inputString += num
 
     updateDisplay(inputString)
 
