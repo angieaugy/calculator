@@ -61,7 +61,20 @@ document.addEventListener('keydown', (event) => {
         case(name =='*'):
 
             updateOperator(name);
-            
+            break;
+
+        case(name == 'Enter'):
+        case(name == '='):
+
+            name = '='
+
+            solve(name);
+            break;
+
+        case(name == 'Delete'):
+        case(name == 'Backspace'):
+
+            clear(name);
             break;
     }
 
@@ -134,9 +147,21 @@ function updateOperator(val) {
 
 }
 
-function solve() {
+function solve(val) {
 
-    if(this.value == '=') toggleOperatorButtonState(this) ;
+    let input
+
+    if(val.type == 'click') {
+
+        input = this.value
+
+    } else {
+
+        input = val
+
+    }
+
+    if(input == '=') toggleOperatorButtonState(input) ;
     
     updateValue()
 
@@ -169,7 +194,7 @@ function solve() {
     }
 
     // toggle reset if entering numbers after =
-    if(this.value == '=') resetToggle = true
+    if(input == '=') resetToggle = true
 
     console.log(`Op >> ${storedOperator} // ${num1}, ${num2}`)
 
@@ -323,28 +348,35 @@ function toggleOperatorButtonState(val) {
 
     })
 
-
-    // if(val.classList.contains('operator')) {
-
-    //     val.classList.add('active')
-
-    // } 
 }
 
 
 
-function clear() {
+function clear(val) {
 
-    if(this.value == 'all-clear') {
+    let input
 
-        toggleOperatorButtonState(this)
+    if(val.type == 'click') {
+
+        input = this.value
+
+    } else {
+
+        input = val
+
+    }
+
+
+    if(input == 'all-clear' || input == 'Delete') {
+
+        toggleOperatorButtonState()
         num1 = ''
         num2 = ''
         storedOperator = ''
         inputString = ''
         resetToggle = false
 
-    } else if (this.value == 'clear') {
+    } else if (input == 'clear' || input == 'Backspace') {
 
         inputString = ''
 
