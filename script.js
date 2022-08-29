@@ -42,13 +42,6 @@ operatorButton.forEach(button => button.addEventListener('click', updateOperator
 document.addEventListener('keydown', (event) => {
 
     let name = event.key;
-    let code = event.code;
-
-    // if(name >= 0 && name <= 9) {
-
-    //     updateInputString(+name)
-
-    // }
 
     switch(true) {
 
@@ -57,12 +50,18 @@ document.addEventListener('keydown', (event) => {
             updateInputString(+name);
             break;
 
+        case(name == '.'):
+
+            updateInputString(name);
+            break;
+
         case(name =='+'):
         case(name =='-'):
         case(name =='/'):
         case(name =='*'):
 
-            console.log('test')
+            updateOperator(name);
+            
             break;
     }
 
@@ -101,9 +100,21 @@ function updateValue() {
 
 }
 
-function updateOperator() {
+function updateOperator(val) {
 
-    toggleOperatorButtonState(this)
+    let input
+
+    if(val.type == 'click') {
+
+        input = this.value
+
+    } else {
+
+        input = val
+
+    }
+
+    toggleOperatorButtonState(input)
 
     // prevent calculations when pressing operator repeatedly
     if(inputString !== '') {
@@ -117,7 +128,7 @@ function updateOperator() {
 
     resetToggle = false
 
-    storedOperator = this.value
+    storedOperator = input
 
     console.log(`Op >> ${storedOperator} // ${num1}, ${num2}`)
 
@@ -231,15 +242,15 @@ function togglePlusMinus() {
 
 function updateInputString(val) {
 
-    let num 
+    let input
 
-    if(typeof val == 'number') {
+    if(typeof val == 'number' || val == '.') {
 
-        num = val;
+        input = val;
 
     } else {
 
-        num = this.textContent
+        input = this.textContent
 
     }
 
@@ -247,7 +258,7 @@ function updateInputString(val) {
     if(inputString == '0') {
 
         // prevent repeated 0s
-        if(num == '0') {
+        if(input == '0') {
 
             return 
 
@@ -261,7 +272,7 @@ function updateInputString(val) {
     }
 
     // decimal display
-    if(this.value == 'decimal') {
+    if(val == '.' || this.value == 'decimal') {
 
         // add 0 before appending decimal point
         if(inputString == '') {
@@ -279,7 +290,7 @@ function updateInputString(val) {
 
     }
 
-    inputString += num
+    inputString += input
 
     updateDisplay(inputString)
 
@@ -306,11 +317,18 @@ function toggleOperatorButtonState(val) {
 
     operatorButton.forEach(button => button.classList.remove('active'))
 
-    if(val.classList.contains('operator')) {
+    operatorButton.forEach(button => {
+        
+        if(button.value == val) button.classList.add('active')
 
-        val.classList.add('active')
+    })
 
-    } 
+
+    // if(val.classList.contains('operator')) {
+
+    //     val.classList.add('active')
+
+    // } 
 }
 
 
