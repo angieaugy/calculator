@@ -151,13 +151,17 @@ function solve(val) {
 
     let input
 
-    if(val.type == 'click') {
+    if(val) {
 
-        input = this.value
+        if(val.type == 'click') {
 
-    } else {
-
-        input = val
+            input = this.value
+    
+        } else {
+    
+            input = val
+    
+        }
 
     }
 
